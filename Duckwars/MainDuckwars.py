@@ -1,5 +1,5 @@
 #imports
-import sys
+import os
 from direct.showbase.ShowBase import *
 from direct.gui.OnscreenText import *
 from direct.gui.DirectGui import *
@@ -9,7 +9,7 @@ class Game(ShowBase):
     #inits
     def __init__(self):
         #sets global variables
-        global font,keymap,width,height
+        global font,keymap,width,isPlay
         #inits showbase
         ShowBase.__init__(self)
         #disables default camera controls
@@ -30,6 +30,7 @@ class Game(ShowBase):
         font.setPageSize(512,512)
         #global variables
         keymap={"forward":False,"backward":False,"leftStrafe":False,"rightStrafe":False}
+        isPlay=False
         #inits options screen
         Game.Options()
         optionsScreen.hide()
@@ -53,7 +54,15 @@ class Game(ShowBase):
         base.camera.setH(base.camera.getH()-int((base.win.getPointer(0).getX()-base.win.getXSize()/2)*0.5))
         base.camera.setP(base.camera.getP()-int((base.win.getPointer(0).getY()-base.win.getYSize()/2)*0.5))
         base.win.movePointer(0,int(base.win.getXSize()/2),int(base.win.getYSize()/2))
+        if optionsScreen.isHidden()==False:
+            return task.done
         return task.cont
+    def OptionsClose():
+        optionsScreen.hide()
+        print(isPlay)
+        if taskMgr.hasTaskNamed("CameraMovement")==False and isPlay==True:
+            base.win.movePointer(0,int(base.win.getXSize()/2),int(base.win.getYSize()/2))
+            taskMgr.add(Game.CameraMovement,"CameraMovement")
     #eventual loading screen for my game
     def Load(whatLoading):
         menuScreen.hide()
@@ -73,13 +82,15 @@ class Game(ShowBase):
         global optionsScreen
         optionsScreen=DirectDialog(frameSize=(-1.2,1.2,-0.7,0.7),pos=(0,0,-0.1))
         optionsText=OnscreenText(text="Options",parent=optionsScreen,scale=0.2,pos=(0,0.5,0),font=font)
-        doneButton=DirectButton(text="Done",parent=optionsScreen,scale=0.1,pos=(-0.2,0,-0.6),command=optionsScreen.hide)
+        doneButton=DirectButton(text="Done",parent=optionsScreen,scale=0.1,pos=(-0.2,0,-0.6),command=Game.OptionsClose)
         quitButton=DirectButton(text="Quit",parent=optionsScreen,scale=0.1,pos=(0.2,0,-0.6),command=Game.Quit)
     #where the main game loop will go
     def Play():
-        taskMgr.add(Game.CameraMovement,"CameraMovement")
+        global isPlay
+        isPlay=True
         environment=loader.loadModel("environment").reparentTo(render)
         base.camera.setPos(0,0,10)
+        taskMgr.add(Game.CameraMovement,"CameraMovement")
         base.accept("escape",Game.Options)
         base.accept("w",Game.UpdateKeyMap,["forward",True])
         base.accept("w-up",Game.UpdateKeyMap,["forward",False])
@@ -89,13 +100,10 @@ class Game(ShowBase):
         base.accept("a-up",Game.UpdateKeyMap,["leftStrafe",False])
         base.accept("d",Game.UpdateKeyMap,["rightStrafe",True])
         base.accept("d-up",Game.UpdateKeyMap,["rightStrafe",False])
-    #closes game, but throws really nong error error(still closes game window, but not launcher)
-    #may be problem with sys.exit()
-    #SystemError: PyEval_EvalFrameEx returned a result with an error set
-    #did not do this before the compter was restarted
+    #quits game
     def Quit():
         base.graphicsEngine.removeAllWindows()
-        sys.exit()
+        os._exit(0)
 #runs game
 game=Game()
 game.run()
