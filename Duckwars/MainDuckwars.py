@@ -9,7 +9,7 @@ class Game(ShowBase):
     #inits
     def __init__(self):
         #sets global variables
-        global font,keymap,width,isPlay
+        global font,keymap,width,isPlay,wp
         #inits showbase
         ShowBase.__init__(self)
         #disables default camera controls
@@ -33,7 +33,7 @@ class Game(ShowBase):
         isPlay=False
         #inits options screen
         Game.Options()
-        optionsScreen.hide()
+        Game.OptionsClose()
         #inits and opens menu
         Game.Menu()
     #when called, updated one keymap peramiter to True or False
@@ -54,18 +54,29 @@ class Game(ShowBase):
         base.camera.setH(base.camera.getH()-int((base.win.getPointer(0).getX()-base.win.getXSize()/2)*0.5))
         base.camera.setP(base.camera.getP()-int((base.win.getPointer(0).getY()-base.win.getYSize()/2)*0.5))
         base.win.movePointer(0,int(base.win.getXSize()/2),int(base.win.getYSize()/2))
+        #mouse movement capping
+        if base.camera.getP()>87:
+            base.camera.setP(87)
+        #stops task if the options screen is not hidden
         if optionsScreen.isHidden()==False:
             return task.done
         return task.cont
+    def OptionsOpen():
+        if optionsScreen.isHidden()==True:
+            wp.setCursorHidden(False)
+            base.win.requestProperties(wp)
+            optionsScreen.cleanup()
+            Game.Options()
     def OptionsClose():
         optionsScreen.hide()
-        print(isPlay)
         if taskMgr.hasTaskNamed("CameraMovement")==False and isPlay==True:
+            wp.setCursorHidden(True)
+            base.win.requestProperties(wp)
             base.win.movePointer(0,int(base.win.getXSize()/2),int(base.win.getYSize()/2))
             taskMgr.add(Game.CameraMovement,"CameraMovement")
     #eventual loading screen for my game
     def Load(whatLoading):
-        menuScreen.hide()
+        menuScreen.cleanup()
         optionsScreen.hide()
         if whatLoading=="Play":
             Game.Play()
@@ -75,7 +86,7 @@ class Game(ShowBase):
         menuScreen=DirectDialog(frameSize=(0,0,0,0))
         nameText=OnscreenText(text="Duckwars:Beaks Of Rage",parent=menuScreen,scale=0.3,pos=(0,0.7),fg=(255,255,255,255),shadow=(0,0,0,255),font=font)
         playButton=DirectButton(text="Play",parent=menuScreen,scale=0.1,pos=(-1,0,0.3),frameSize=(-3,3,-0.4,0.9),command=Game.Load,extraArgs=["Play"])
-        optionsButton=DirectButton(text="Options",parent=menuScreen,scale=0.1,pos=(-1,0,0.1),frameSize=(-3,3,-0.4,0.9),command=Game.Options)
+        optionsButton=DirectButton(text="Options",parent=menuScreen,scale=0.1,pos=(-1,0,0.1),frameSize=(-3,3,-0.4,0.9),command=Game.OptionsOpen)
         quitButton=DirectButton(text="Quit",parent=menuScreen,scale=0.1,pos=(-1,0,-0.1),frameSize=(-3,3,-0.4,0.9),command=Game.Quit)
     #options screen
     def Options():
@@ -88,10 +99,12 @@ class Game(ShowBase):
     def Play():
         global isPlay
         isPlay=True
+        wp.setCursorHidden(True)
+        base.win.requestProperties(wp)
         environment=loader.loadModel("environment").reparentTo(render)
         base.camera.setPos(0,0,10)
         taskMgr.add(Game.CameraMovement,"CameraMovement")
-        base.accept("escape",Game.Options)
+        base.accept("escape",Game.OptionsOpen)
         base.accept("w",Game.UpdateKeyMap,["forward",True])
         base.accept("w-up",Game.UpdateKeyMap,["forward",False])
         base.accept("s",Game.UpdateKeyMap,["backward",True])
@@ -105,5 +118,4 @@ class Game(ShowBase):
         base.graphicsEngine.removeAllWindows()
         os._exit(0)
 #runs game
-game=Game()
-game.run()
+Game().run()
