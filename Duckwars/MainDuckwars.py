@@ -4,6 +4,7 @@ from direct.showbase.ShowBase import *
 from direct.gui.OnscreenText import *
 from direct.gui.DirectGui import *
 from panda3d.core import *
+from direct.actor.Actor import *
 #game class
 class Game(ShowBase):
     #inits
@@ -21,7 +22,7 @@ class Game(ShowBase):
         height=base.pipe.getDisplayHeight()
         wp.setSize(width,height)
         #for testing
-        wp.setSize(500,500)
+        #wp.setSize(500,500)
         #for testing
         base.win.requestProperties(wp)
         #makes font
@@ -42,21 +43,21 @@ class Game(ShowBase):
     #moves the camera, and is called every frame
     def CameraMovement(task):
         #for camera movement
-        if keymap["forward"]==True:
+        if keymap["forward"]:
             base.camera.setPos(base.camera,0,1,0)
-        if keymap["backward"]==True:
+        if keymap["backward"]:
             base.camera.setPos(base.camera,0,-1,0)
-        if keymap["leftStrafe"]==True:
+        if keymap["leftStrafe"]:
             base.camera.setPos(base.camera,-0.5,0,0)
-        if keymap["rightStrafe"]==True:
+        if keymap["rightStrafe"]:
             base.camera.setPos(base.camera,0.5,0,0)
         #for mouse movement
         base.camera.setH(base.camera.getH()-int((base.win.getPointer(0).getX()-base.win.getXSize()/2)*0.5))
         base.camera.setP(base.camera.getP()-int((base.win.getPointer(0).getY()-base.win.getYSize()/2)*0.5))
         base.win.movePointer(0,int(base.win.getXSize()/2),int(base.win.getYSize()/2))
         #mouse movement capping
-        if base.camera.getP()>87:
-            base.camera.setP(87)
+        if base.camera.getP()>87:base.camera.setP(87)
+        if base.camera.getP()<-87:base.camera.setP(-87)
         #stops task if the options screen is not hidden
         if optionsScreen.isHidden()==False:
             return task.done
@@ -85,6 +86,7 @@ class Game(ShowBase):
         global menuScreen
         menuScreen=DirectDialog(frameSize=(0,0,0,0))
         nameText=OnscreenText(text="Duckwars:Beaks Of Rage",parent=menuScreen,scale=0.3,pos=(0,0.7),fg=(255,255,255,255),shadow=(0,0,0,255),font=font)
+        testText=OnscreenText(text="text",parent=menuScreen,scale=0.1,pos=(0.3,0,0),font=font,bg=(2,2,2,2))
         playButton=DirectButton(text="Play",parent=menuScreen,scale=0.1,pos=(-1,0,0.3),frameSize=(-3,3,-0.4,0.9),command=Game.Load,extraArgs=["Play"])
         optionsButton=DirectButton(text="Options",parent=menuScreen,scale=0.1,pos=(-1,0,0.1),frameSize=(-3,3,-0.4,0.9),command=Game.OptionsOpen)
         quitButton=DirectButton(text="Quit",parent=menuScreen,scale=0.1,pos=(-1,0,-0.1),frameSize=(-3,3,-0.4,0.9),command=Game.Quit)
@@ -102,7 +104,7 @@ class Game(ShowBase):
         wp.setCursorHidden(True)
         base.win.requestProperties(wp)
         environment=loader.loadModel("environment").reparentTo(render)
-        base.camera.setPos(0,0,10)
+        player=loader.loadModel("Models/Player.glb").reparentTo(render)
         taskMgr.add(Game.CameraMovement,"CameraMovement")
         base.accept("escape",Game.OptionsOpen)
         base.accept("w",Game.UpdateKeyMap,["forward",True])
@@ -118,4 +120,5 @@ class Game(ShowBase):
         base.graphicsEngine.removeAllWindows()
         os._exit(0)
 #runs game
-Game().run()
+game=Game()
+game.run()
