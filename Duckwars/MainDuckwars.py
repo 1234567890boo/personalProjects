@@ -9,7 +9,7 @@ class Game(ShowBase):
   #initializes game things
   def __init__(self):
     #sets globals variables
-    global bulletWorld,wp
+    global bulletWorld,wp,keyMap
     #initializes the game window
     ShowBase.__init__(self)
     #inits physics simulation and gravity
@@ -21,6 +21,9 @@ class Game(ShowBase):
     width=base.pipe.getDisplayWidth()
     height=base.pipe.getDisplayHeight()
     wp.setSize(width,height)
+    #for testing
+    wp.setSize(500,500)
+    #for testing
     base.win.requestProperties(wp)
     #calls play function
     Game.Play()
@@ -38,12 +41,24 @@ class Game(ShowBase):
   def updatePhys(task):
     bulletWorld.doPhysics(globalClock.getDt())
     return task.cont
-  #player movement task,
+  #player movement task
   def playerMovement(task):
+    #keyboard controls
+    isJump=bulletWorld.contactTest(playerNode.node()).getNumContacts()
+    if isJump!=0:isJump=True
+    #mouse movement
     base.camera.setP(base.camera,base.win.getPointer(0).getY()-int(base.win.getYSize()/2))
     playerNode.setH(playerNode,base.win.getPointer(0).getX()-int(base.win.getXSize()/2))
+    #resets the cursor to the center of the screen
     base.win.movePointer(0,base.win.getXSize()//2,base.win.getYSize()//2)
+    #caps camera movement
+    if base.camera.getP()>80:base.camera.setP(79)
+    if base.camera.getP()<-60:base.camera.setP(-61)
+    if base.camera.getH()!=0:base.camera.setH(0)
+    #resets player and camera yaw
     playerNode.setR(0)
+    base.camera.setR(0)
+    #makes task run again
     return task.cont
   #procedurally makes collision mesh for models
   def modelHBMakeRender(inputModel,mass,friction,pos):
@@ -65,7 +80,7 @@ class Game(ShowBase):
     #renders and attaches mesh to node
     bulletWorld.attachRigidBody(np.node())
     #returns model and np
-    return inputModel,np,
+    return inputModel,np
   #play function where gameplay will go
   def Play():
     global playerNode
@@ -82,7 +97,6 @@ class Game(ShowBase):
     player,playerNode=Game.modelHBMakeRender("Models/Player.glb",1,1,(0,0,0))
     player.reparentTo(playerNode)
     #reparents camera to player and sets position to the head
-    #base.oobe()
     base.camera.reparentTo(playerNode)
     base.camera.setPos(0,1,1)
     #sets cursor to middle
@@ -90,7 +104,8 @@ class Game(ShowBase):
     #starts the physics
     taskMgr.add(Game.updatePhys,"updatePhys",sort=1)
     taskMgr.add(Game.playerMovement,"playerMovement",sort=2)
-    #Game.mouseHide()
+    #hides Mouse
+    Game.mouseHide()
 #runs the game
 game=Game()
 game.run()
