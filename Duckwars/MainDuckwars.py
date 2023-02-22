@@ -20,43 +20,61 @@ class Game(ShowBase):
     self.wp.setSize(self.width,self.height)
     #for testing
     self.wp.setSize(500,500)
-    #acctually sets screen size
+    #actually sets screen size
     base.win.requestProperties(self.wp)
+    #variables
+    self.keyMap={"forward":False,"backward":False,"leftStrafe":False,"rightStrafe":False,"jump":False}
     #disables default mouse controls
-    base.disableMouse()
+    #base.disableMouse()
+    base.oobe()
     #starts game
     self.Play()
   #task for updating physics
   def updatePhys(self, task):
     self.bulletWorld.doPhysics(globalClock.getDt())
     return task.cont
+  #for updating keymap
+  def updateKeyMap(self,key,toWhat):
+    self.keyMap[key]=toWhat
   #task for player movement
   def playerMovement(self, task):
-    #checks if the player is on the ground
-    isJump = self.bulletWorld.contactTest(self.playerNode.node()).getNumContacts()
-    if isJump!=0:isJump=True
     #for camera mouse looking
     base.camera.setP(base.camera, base.win.getPointer(0).getY() - int(base.win.getYSize()/2))
     self.playerNode.setH(self.playerNode, base.win.getPointer(0).getX() - int(base.win.getXSize()/2))
     #moves cursor to center of screen
     base.win.movePointer(0, base.win.getXSize()//2, base.win.getYSize()//2)
     #camera movement capping
-    if base.camera.getP() > 80:base.camera.setP(79)
-    if base.camera.getP() < -60:base.camera.setP(-61)
-    if base.camera.getH() != 0:base.camera.setH(0)
+    if base.camera.getP()>80:base.camera.setP(79)
+    if base.camera.getP()<-60:base.camera.setP(-61)
+    if base.camera.getH()!= 0:base.camera.setH(0)
     #makes sure camera or player dont roll
     self.playerNode.setR(0)
+    self.playerNode.setP(0)
     base.camera.setR(0)
+    #for movement
+    speed=Vec3()
+    #checks if the player is on the ground
+    canJump=self.bulletWorld.contactTest(self.playerNode.node()).getNumContacts()
+    if canJump!=0:canJump=True
+    #sets player movement based on keymap
+    if self.keyMap["forward"]==True:speed+=Vec3(0,0.2,0)
+    if self.keyMap["backward"]==True:speed+=Vec3(0,-0.2,0)
+    if self.keyMap["rightStrafe"]==True:speed+=Vec3(0.1,0,0)
+    if self.keyMap["leftStrafe"]==True:speed+=Vec3(-0.1,0,0)
+    if self.keyMap["jump"]==True:speed+=Vec3(0,0,0.1)#not working
+    #actually pushes player
+    self.playerNode.setPos(self.playerNode,speed)
     #redos task
     return task.cont
   #makes physics mesh for models
   def modelHBMakeRender(self,inputModel,mass,friction,pos):
     #loads model
-    inputModel = loader.loadModel(inputModel)
+    inputModel=loader.loadModel(inputModel)
     #makes mesh thats empty
-    outputBulletMesh = BulletTriangleMesh()
-    #adds triangles to mesh that is the shape of the model
-    outputBulletMesh.addGeom(inputModel.findAllMatches("**/+GeomNode").getPath(0).node().getGeom(0))
+    outputBulletMesh=BulletTriangleMesh()
+    for meshNum in range(0,len(inputModel.findAllMatches("**/+GeomNode")),1):
+      #adds triangles to mesh that is the shape of the model
+      outputBulletMesh.addGeom(inputModel.findAllMatches("**/+GeomNode").getPath(meshNum).node().getGeom(0))
     #adds rigid body node to render
     np=render.attachNewNode(BulletRigidBodyNode(str(inputModel)))
     #sets position of node
@@ -93,6 +111,17 @@ class Game(ShowBase):
     #starts the tasks
     taskMgr.add(self.updatePhys, "updatePhys", sort=1)
     taskMgr.add(self.playerMovement, "playerMovement", sort=2)
+    #for player movement
+    base.accept("w",self.updateKeyMap,extraArgs=["forward",True])
+    base.accept("w-up",self.updateKeyMap,extraArgs=["forward",False])
+    base.accept("s",self.updateKeyMap,extraArgs=["backward",True])
+    base.accept("s-up",self.updateKeyMap,extraArgs=["backward",False])
+    base.accept("a",self.updateKeyMap,extraArgs=["leftStrafe",True])
+    base.accept("a-up",self.updateKeyMap,extraArgs=["leftStrafe",False])
+    base.accept("d",self.updateKeyMap,extraArgs=["rightStrafe",True])
+    base.accept("d-up",self.updateKeyMap,extraArgs=["rightStrafe",False])
+    base.accept("space",self.updateKeyMap,extraArgs=["jump",True])
+    base.accept("space-up",self.updateKeyMap,extraArgs=["jump",False])
 #runs the game class
 game = Game()
 game.run()
