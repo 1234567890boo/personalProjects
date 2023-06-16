@@ -15,15 +15,22 @@ let worldScaler=20
 var isPlaying=false
 var getUpgrade=false
 var upgradeNum=10
+
 //loads soundtrack for less lag
 load_ogg("soundTrack.ogg")
+
 //loads textures for upgrade buttons
-let health=gl_load_texture("health.png")
-assert health
-let speed=gl_load_texture("speed.png")
-assert speed
-let upgradeText=gl_load_texture("upgradeNum.png")
-assert upgradeText
+let healthTexture=gl_load_texture("health.png")
+assert healthTexture
+let speedTexture=gl_load_texture("speed.png")
+assert speedTexture
+let upgradeTexture=gl_load_texture("upgradeNum.png")
+assert upgradeTexture
+let hurtTexture=gl_load_texture("hurtShader.png")
+assert hurtTexture
+//reads hghscore from file
+let highScore=read_file("highscore.txt")
+assert highScore
 
 //bullet vairables
 var bullets=[]
@@ -46,12 +53,21 @@ class player:
     highScore:int
     shots:int
     //for movement and drawing of player
-    def drawMove(mousePos,worldSize):
-        //key detection
-        let dir=xy_f{(gl_button("a")>=1)-(gl_button("d")>=1),(gl_button("w")>=1)-(gl_button("s")>=1)}
+    def drawMove(mousePos):
+        //makes variables
+        var leftright=0
+        var updown=0
+        //for moving left and right
+        if gl_button("a") or gl_button("left"):leftright+=1
+        if gl_button("d") or gl_button("right"):leftright-=1
+        //for moving up and down
+        if gl_button("w") or gl_button("up"):updown+=1
+        if gl_button("s") or gl_button("down"):updown-=1
+        //making movemnet firection vector
+        let dir=xy_f{leftright,updown}
         //for pointing player to mouse
-        drawPointyTriangle(pos,mousePos,lerp(color_green,color_white,div(nextPoint-score,100)),3)
-        //return directin for movt
+        drawPointyTriangle(pos,mousePos,lerp(color_green,color_white,(div(nextPoint-score,nextPoint))*2.0),3)
+        //return directin for moving
         return dir 
 
 //makes class for bullet
@@ -83,7 +99,7 @@ class particle:
     pos:xy_f
 
 //makes player
-let player=player{xy_0,100.0,10.0,100,0,0,1}
+let player=player{xy_0,100.0,10.0,25,0,string_to_int(highScore),1}
 
 //function for drawing enemy/player
 def drawPointyTriangle(pos,pointTo,color,points):
@@ -124,9 +140,6 @@ def upgradeButton(whatUpgrade,mousePos,pos,size,texture):
 //runloop, needed for window to open
 while gl_frame() and gl_button("escape")==0:
 
-    //test
-    gl_cull_front(false)
-
     //fills screen
     gl_clear(color_black)
 
@@ -138,8 +151,8 @@ while gl_frame() and gl_button("escape")==0:
     gl_scale(worldSizes):
         gl_translate(gl_local_mouse_pos(0)):
             gl_line_mode(1):
-                gl_color(color_grey)
-                gl_circle(0.5,20)
+                gl_color(color_grey):
+                    gl_circle(0.5,20)
 
     //Sets color for drawing
     gl_color(color_white)
@@ -154,7 +167,7 @@ while gl_frame() and gl_button("escape")==0:
 
         //highschore message
         let highScoreMsg="Your HighScore is {ceiling(player.highScore)}"
-        gl_translate((float(gl_window_size()-gl_text_size(highScoreMsg)))/1.2):gl_text(highScoreMsg)
+        gl_translate(((float(gl_window_size()-gl_text_size(highScoreMsg)))/2.0)+xy_f{0.0,50.0}):gl_text(highScoreMsg)
 
         //what happens when game is started
         if gl_button("space")>0:
@@ -185,11 +198,22 @@ while gl_frame() and gl_button("escape")==0:
         //sets world scale
         let worldSize=gl_window_size().y/worldScaler
         gl_scale(worldSize)
+        
+        //draws the damage indicator/overlay
+        if player.health<50.0:
+            for(int((player.health-50.0)*-0.5)) overlayMove:
+                gl_set_shader("textured")
+                gl_set_primitive_texture(0,hurtTexture)
+                gl_color(color_white)
+                gl_rotate_z(xy_f{overlayMove*7.2,overlayMove*7.2}):
+                    gl_rect(float(gl_window_size())/worldSize,1)
+                gl_set_shader("color")
 
+        //makes the direction of where to point the player
         let toMouse=normalize(gl_local_mouse_pos(0)-player.pos)
 
         //draws player and moves player
-        let moveDir=player.drawMove(toMouse,worldSize)
+        let moveDir=player.drawMove(toMouse)
 
         //for getting upgrades
         if player.score==player.nextPoint:
@@ -213,8 +237,7 @@ while gl_frame() and gl_button("escape")==0:
             if abs(p.pos.x)>worldScaler*10 or abs(p.pos.y)>worldScaler*10:remove_obj(particles,p)
 
         //adds more background particles
-        if particlesonScreen<20:particles.push(particle{xy_f{rnd_float()*13.0-rnd_float()*13.0,rnd_float()*13.0-rnd_float()*13.0}})
-
+        if particlesonScreen<20:particles.push(particle{xy_f{rnd_float()*15.0-rnd_float()*15.0,rnd_float()*15.0-rnd_float()*15.0}})
         //for shooting bullets
         if gl_button("mouse1")==1:
             for(player.shots):
@@ -249,6 +272,7 @@ while gl_frame() and gl_button("escape")==0:
                 if player.health<=0.0:
                     sound_volume(play_wav("gameOver.wav",0,2),0.4)
                     player.highScore=max(player.highScore,player.score)
+                    write_file("highScore.txt",number_to_string(player.highScore,10,0))
                     isPlaying=false
             //for bullet colision
             for(bullets) b:
@@ -281,12 +305,12 @@ while gl_frame() and gl_button("escape")==0:
         let mousePos=gl_local_mouse_pos(0)
 
         //makes buttons and does the effect when you clock on it
-        upgradeButton("health",mousePos,xy_f{4.0,-4.0},xy_f{2.0,2.0},health)
-        upgradeButton("speed",mousePos,xy_f{-4.0,-4.0},xy_f{2.0,2.0},speed)
-        upgradeButton("upgradeNum",mousePos,xy_f{0.0,4.0},xy_f{2.0,2.0},upgradeText)
+        upgradeButton("health",mousePos,xy_f{4.0,-4.0},xy_f{2.0,2.0},healthTexture)
+        upgradeButton("speed",mousePos,xy_f{-4.0,-4.0},xy_f{2.0,2.0},speedTexture)
+        upgradeButton("upgradeNum",mousePos,xy_f{-0.0,4.0},xy_f{2.0,2.0},upgradeTexture)
 
     //mutes sound
-    for(8) e:sound_volume(e,0.0)
+    //for(8) e:sound_volume(e,0.0)
 
 
 
