@@ -1,0 +1,163 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://dnlhlet4yqod4"
+path="res://.godot/imported/medieval_knight__sculpture__game_ready.glb-b91c870c9e58b2608bb845665c1d02ca.scn"
+
+[deps]
+
+source_file="res://Enemy/medieval_knight__sculpture__game_ready.glb"
+dest_files=["res://.godot/imported/medieval_knight__sculpture__game_ready.glb-b91c870c9e58b2608bb845665c1d02ca.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+meshes/ensure_tangents=false
+meshes/generate_lods=false
+meshes/create_shadow_meshes=false
+meshes/light_baking=0
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=false
+animation/fps=30
+animation/trimming=true
+animation/remove_immutable_tracks=true
+import_script/path=""
+_subresources={
+"nodes": {
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_11": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_13": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_15": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_17": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_19": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_21": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_23": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_25": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_27": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_29": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_31": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_33": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_35": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_37": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_39": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_41": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_43": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_45": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_47": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_49": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_51": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_53": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_55": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_57": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_59": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_61": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_63": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_65": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_67": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_69": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_7": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_71": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_73": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_75": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_77": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_79": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_81": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_83": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_85": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_87": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_9": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/985ec9739c20496b97be5cb1a0679ffb_fbx/Object_2/RootNode/Object_4/Skeleton3D/Object_91": {
+"generate/physics": true
+}
+}
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1

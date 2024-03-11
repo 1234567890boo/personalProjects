@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://fq8guo04df2i"]
+
+[ext_resource type="Script" path="res://Enemy/Enemy.gd" id="1_1541m"]
+[ext_resource type="PackedScene" uid="uid://dnlhlet4yqod4" path="res://Enemy/medieval_knight__sculpture__game_ready.glb" id="2_t3vs5"]
+
+[node name="Enemy" type="CharacterBody3D" groups=["Enemies"]]
+script = ExtResource("1_1541m")
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("2_t3vs5")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, 0, 0)
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+
+[node name="BulletSpawn" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0413, -0.28918)
