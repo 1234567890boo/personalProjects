@@ -1,0 +1,112 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://gyf7evk7hhjp"
+path="res://.godot/imported/MainTown.glb-243a07cff2dd5d714d8b075d01408dfd.scn"
+
+[deps]
+
+source_file="res://MainTown/MainTown.glb"
+dest_files=["res://.godot/imported/MainTown.glb-243a07cff2dd5d714d8b075d01408dfd.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+import_script/path=""
+_subresources={
+"nodes": {
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/gate/gate_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/gatedoor/gatedoor_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/house1/house1_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/house2/house2_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/house3/house3_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/house4/house4_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/house5/house5_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/house6/house6_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/house7/house7_mat1_0": {
+"generate/physics": true
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/house8/house8_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/house9/house9_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/houseside1/houseside1_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/houseside2/houseside2_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/houseside3/houseside3_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/obj1/obj1_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/obj10/obj10_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/ramp/ramp_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/tower/tower_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/f0d3c4ab28b5402ab51e1a34ef7690ba_fbx/RootNode/wall/wall_mat1_0": {
+"generate/physics": true,
+"physics/shape_type": 2
+}
+}
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1

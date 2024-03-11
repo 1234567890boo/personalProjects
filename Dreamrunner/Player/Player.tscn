@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://hyj1tg2g5j6r"]
+
+[ext_resource type="Script" path="res://Player/Player.gd" id="1_ubjdp"]
+[ext_resource type="Texture2D" uid="uid://dbi0a8p6f70i3" path="res://Player/hurt.png" id="2_vpvr8"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ww1gs"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_yvab3"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_ubjdp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_ww1gs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_yvab3")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.457012, 0)
+size = 0.3
+
+[node name="bulletSpawn" type="Node3D" parent="Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0940586, -0.860193)
+
+[node name="UICamera" type="Camera2D" parent="."]
+
+[node name="hurt" type="Sprite2D" parent="UICamera"]
+scale = Vector2(1.5, 1.67)
+texture = ExtResource("2_vpvr8")
+
+[node name="time_alive" type="Label" parent="UICamera"]
+offset_left = -170.0
+offset_top = -319.0
+offset_right = -130.0
+offset_bottom = -229.0
+theme_override_font_sizes/font_size = 60
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DreamBarLabel" type="Label" parent="UICamera"]
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 60
+text = "Dream"
+
+[node name="DreamBar" type="ProgressBar" parent="UICamera/DreamBarLabel"]
+layout_mode = 0
+offset_left = 7.0
+offset_right = 199.0
+offset_bottom = 44.0
+show_percentage = false
+
+[node name="Crosshair" type="Label" parent="UICamera"]
+offset_left = -17.0
+offset_top = -42.0
+offset_right = 17.0
+offset_bottom = 41.0
+theme_override_font_sizes/font_size = 60
+text = "+"
+
+[node name="Controls" type="Label" parent="UICamera"]
+offset_left = -397.0
+offset_top = -205.0
+offset_right = 405.0
+offset_bottom = 82.0
+theme_override_font_sizes/font_size = 40
+text = "Escape to quit
+WASD to move
+Space to jump
+E to dream when bar is full
+Left click to shoot when you are dreaming
+
+Thanks for playing my first game!"
