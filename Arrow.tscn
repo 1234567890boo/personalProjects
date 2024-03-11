@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://51tgcr4jc2t5"]
+
+[ext_resource type="Script" path="res://Arrow.gd" id="1_ymlck"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qq6c5"]
+albedo_color = Color(1, 0.34902, 0.27451, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_cobq2"]
+material = SubResource("StandardMaterial3D_qq6c5")
+radius = 0.175
+height = 0.35
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jbkfe"]
+radius = 0.175
+
+[node name="RigidBody3D" type="RigidBody3D"]
+script = ExtResource("1_ymlck")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_cobq2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_jbkfe")
