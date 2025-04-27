@@ -1,9 +1,9 @@
-import pygame,os,math,functools,random
+import pygame,os,math,functools,random,threading
 
 #gets size for the screen
 screenX,screenY=640,480
 #makes the screen and gives it a name
-screen=pygame.display.set_mode((screenX,screenY),pygame.SCALED|pygame.HWSURFACE|pygame.DOUBLEBUF|pygame.RESIZABLE,vsync=True)
+screen=pygame.display.set_mode((screenX,screenY),pygame.SCALED|pygame.HWSURFACE|pygame.DOUBLEBUF|pygame.RESIZABLE,vsync=False)
 pygame.display.set_caption("Sprite Stacking")
 #gets clock for fps
 clock=pygame.time.Clock()

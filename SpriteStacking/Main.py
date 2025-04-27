@@ -7,6 +7,14 @@ pygame.init()
 #uses class to make object
 blueCar=spriteStack("Sprites/BlueCar.png",screenX//2,screenY//2,16,16,0,1,0)
 
+#stress test Make
+cars=[]
+
+for n in range(0,200,1):
+    red=spriteStack("YellowCar.png",random.randint(0,screenX),random.randint(0,screenY),16,16,random.randint(0,360),1,0)
+    cars.append(red)
+
+
 #main runloop
 while True:
     #resets screen for next frame
@@ -14,6 +22,16 @@ while True:
     #draws the spritestack
     blueCar.draw()
     blueCar.rotoMove()
+    
+    #Stress test Start
+    for car in cars:
+        spriteChoice=random.choice(["BlueCar.png","RedCar.png","YellowCar.png","PurpleCar.png","GreenCar.png"])
+        car.spriteSheet=pygame.image.load("Sprites/"+spriteChoice).convert_alpha()
+        car.movementSpeed=random.random()
+        car.draw()
+        car.rotoMove()
+    #Stress Test End
+    
     #shows fps on screen
     dt=clock.tick()
     fps=clock.get_fps()
