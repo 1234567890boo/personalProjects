@@ -1,6 +1,7 @@
 #imports
 from ThresholdDithering import *
 from RandomDithering import *
+from OrderedDithering import *
 
 #imports image
 image=pygame.image.load("image.png")
@@ -18,6 +19,12 @@ ClampedRandomDithering(screen,image,imageSize)
 
 #True Random Dithering
 TrueRandomDithering(screen,image,imageSize)
+
+#Two by Two Ordered Dithering
+TwoByTwoOrderedDithering(screen,image,imageSize)
+
+#Three by Three
+ThreeByThreeOrderedDithering(screen,image,imageSize)
 
 #closes window after it is done
 os._exit(0)
