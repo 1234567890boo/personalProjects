@@ -1,11 +1,18 @@
 from Utils import *
 
 #function to draw the grid onto the 2D surface
-def TwoDSurfDraw(grid,xMove,yMove):
-    TwoDSurf.fill((0,0,0,0))
+def gridDraw(grid,xMove,yMove,gridRotation):
+    TwoDSurf.fill("bisque4")
     for rect in rectGridList:
+        #for movement
         rect.x+=xMove
         rect.y+=yMove
+        #makes the surface
         pygame.draw.rect(TwoDSurf,"white",rect)
-    #blits the 2d surface onto the screen
-    screen.blit(TwoDSurf,(0,0))
+    #rotates it
+    rotatedTwoDSurf=pygame.transform.rotate(TwoDSurf,gridRotation)
+    rotatedTwoDSurfRect=rotatedTwoDSurf.get_rect()
+    rotatedTwoDSurfCenterX,rotatedTwoDSurfCenterY=rotatedTwoDSurfRect.center
+    rotatedTwoDSurfCenterX-=rotatedTwoDSurfRect.width-(screenX/2)
+    rotatedTwoDSurfCenterY-=rotatedTwoDSurfRect.height-(screenY/2)
+    return rotatedTwoDSurf,rotatedTwoDSurfCenterX,rotatedTwoDSurfCenterY
