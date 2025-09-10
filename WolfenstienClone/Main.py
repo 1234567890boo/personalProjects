@@ -1,5 +1,7 @@
 from Utils import *
 from Grid import *
+#makes an instance of the map
+map=Grid(startingGrid)
 #runloop
 while True:
     #for closing the game safely
@@ -8,30 +10,25 @@ while True:
         #player movement and exiting when escape is pressed
         elif event.type==pygame.KEYDOWN:
             if event.key==pygame.K_ESCAPE:os._exit(0)
-            elif event.key==pygame.K_w:yGridMove=-1
-            elif event.key==pygame.K_s:yGridMove=1
-            elif event.key==pygame.K_a:xGridMove=-1
-            elif event.key==pygame.K_d:xGridMove=1
-            elif event.key==pygame.K_LEFT:gridRotationMovement=1
-            elif event.key==pygame.K_RIGHT:gridRotationMovement=-1
+            elif event.key==pygame.K_w:map.yMovement="Forward"
+            elif event.key==pygame.K_s:map.yMovement="Backward"
+            elif event.key==pygame.K_a:map.xMovement="Left"
+            elif event.key==pygame.K_d:map.xMovement="Right"
+            if event.key==pygame.K_LEFT:map.rotationDirection="Left"
+            elif event.key==pygame.K_RIGHT:map.rotationDirection="Right"
         elif event.type==pygame.KEYUP:
-            if event.key==pygame.K_w and yGridMove!=1:yGridMove=0
-            elif event.key==pygame.K_s and yGridMove!=-1:yGridMove=0
-            elif event.key==pygame.K_a and xGridMove!=1:xGridMove=0
-            elif event.key==pygame.K_d and xGridMove!=-1:xGridMove=0
-            elif event.key==pygame.K_LEFT and gridRotation!=1:gridRotationMovement=0
-            elif event.key==pygame.K_RIGHT and gridRotation!=-1:gridRotationMovement=0
+            if event.key==pygame.K_w and map.yMovement!="Backward":map.yMovement="None"
+            elif event.key==pygame.K_s and map.yMovement!="Forward":map.yMovement="None"
+            elif event.key==pygame.K_a and map.xMovement!="Right":map.xMovement="None"
+            elif event.key==pygame.K_d and map.xMovement!="Left":map.xMovement="None"
+            if event.key==pygame.K_LEFT and map.rotationDirection!="Right":map.rotationDirection="None"
+            elif event.key==pygame.K_RIGHT and map.rotationDirection!="Left":map.rotationDirection="None"
             
     #resets the screen
     screen.fill("black")
 
-    #moves and rotates the grid
-    gridRotation+=gridRotationMovement
-    rotatedTwoDSurf,rotatedTwoDSurfCenterX,rotatedTwoDSurfCenterY=gridDraw(grid,xGridMove,yGridMove,gridRotation)
-    #do player things below here
-    
-    #draws the grid
-    screen.blit(rotatedTwoDSurf,(rotatedTwoDSurfCenterX,rotatedTwoDSurfCenterY))
-    
+    #draws the map
+    map.drawMove()
+
     #updates the screen
     pygame.display.update()
