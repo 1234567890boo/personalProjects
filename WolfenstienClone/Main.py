@@ -1,8 +1,12 @@
 from Player import *
+from Map import *
 
-player=Player()
+map1=open("Maps/Map1.txt")
+Map=Map(map1)
 
-#runloopself.
+player=Player(Map.playerStartLocation,Map.mapListRect)
+
+#main runloop
 while True:
     #for closing the game safely
     for event in pygame.event.get():
@@ -22,11 +26,24 @@ while True:
             elif event.key==pygame.K_d and player.xMovementDirection!="Left":player.xMovementDirection=None
             elif event.key==pygame.K_LEFT and player.rotationDirection!="Right":player.rotationDirection=None
             elif event.key==pygame.K_RIGHT and player.rotationDirection!="Left":player.rotationDirection=None
+
     #resets the screen
     screen.fill("white")
 
+    #draws the map
+    Map.draw()
+    
     #draws the player
+    player.moveLook()
     player.draw()
+
+    #for calculation and showing fps
+    clock.tick()
+    fps=clock.get_fps()
+    if fps>maxFPS:maxFPS=fps
+    if fps<minFPS and fps!=0:minFPS=fps
+    displayedText="FPS: "+str(int(fps))+",  Min: "+str(int(maxFPS))+",  Max: "+str(int(minFPS))
+    renderText(displayedText,"black",10,10)
     
     #updates the screen
     pygame.display.update()

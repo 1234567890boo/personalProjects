@@ -7,4 +7,17 @@ pygame.init()
 #makes screen
 screenX,screenY=320,200
 flags=pygame.SCALED#|pygame.FULLSCREEN
-screen=pygame.display.set_mode((screenX,screenY),flags,vsync=True)
+screen=pygame.display.set_mode((screenX,screenY),flags,vsync=False)
+
+#gets clock for fps
+clock=pygame.time.Clock()
+#for saving the maximum fps
+maxFPS=0
+minFPS=999999
+
+#function for rendering text
+def renderText(text,color,x,y):
+    font=pygame.font.Font(pygame.font.get_default_font(),15)
+    word=font.render(text,False,color)
+    screen.blit(word,(x,y))
+
