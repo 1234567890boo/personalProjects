@@ -1,49 +1,49 @@
 from Player import *
 from Map import *
 
+#makes map
 map1=open("Maps/Map1.txt")
 Map=Map(map1)
 
-player=Player(Map.playerStartLocation,Map.mapListRect)
+#makes player
+player=Player(Map.playerStartLocation)
 
 #main runloop
 while True:
+    #for getting the fps and making movement work with any framerate
+    dt=clock.tick()
     #for closing the game safely
     for event in pygame.event.get():
         if event.type==pygame.QUIT:os._exit(0)
         elif event.type==pygame.KEYDOWN:
             if event.key==pygame.K_ESCAPE:os._exit(0)
-            elif event.key==pygame.K_w:player.yMovementDirection="Forward"
-            elif event.key==pygame.K_s:player.yMovementDirection="Backward"
-            elif event.key==pygame.K_a:player.xMovementDirection="Left"
-            elif event.key==pygame.K_d:player.xMovementDirection="Right"
-            elif event.key==pygame.K_LEFT:player.rotationDirection="Left"
-            elif event.key==pygame.K_RIGHT:player.rotationDirection="Right"
+            elif event.key==pygame.K_w:player.movementDirection.y=-1
+            elif event.key==pygame.K_s:player.movementDirection.y=1
+            elif event.key==pygame.K_a:player.movementDirection.x=-1
+            elif event.key==pygame.K_d:player.movementDirection.x=1
+            elif event.key==pygame.K_LEFT:player.rotationDirection=2
+            elif event.key==pygame.K_RIGHT:player.rotationDirection=-2
         elif event.type==pygame.KEYUP:
-            if event.key==pygame.K_w and player.yMovementDirection!="Backward":player.yMovementDirection=None
-            elif event.key==pygame.K_s and player.yMovementDirection!="Forward":player.yMovementDirection=None
-            elif event.key==pygame.K_a and player.xMovementDirection!="Right":player.xMovementDirection=None
-            elif event.key==pygame.K_d and player.xMovementDirection!="Left":player.xMovementDirection=None
-            elif event.key==pygame.K_LEFT and player.rotationDirection!="Right":player.rotationDirection=None
-            elif event.key==pygame.K_RIGHT and player.rotationDirection!="Left":player.rotationDirection=None
+            if event.key==pygame.K_w and player.movementDirection.y<0:player.movementDirection.y=0
+            elif event.key==pygame.K_s and player.movementDirection.y>0:player.movementDirection.y=0
+            elif event.key==pygame.K_a and player.movementDirection.x<0:player.movementDirection.x=0
+            elif event.key==pygame.K_d and player.movementDirection.x>0:player.movementDirection.x=0
+            elif event.key==pygame.K_LEFT and player.rotationDirection>0:player.rotationDirection=0
+            elif event.key==pygame.K_RIGHT and player.rotationDirection<0:player.rotationDirection=0
 
     #resets the screen
-    screen.fill("white")
-
+    screen.fill("white")    
+    
     #draws the map
     Map.draw()
-    
-    #draws the player
-    player.moveLook()
-    player.draw()
 
-    #for calculation and showing fps
-    clock.tick()
-    fps=clock.get_fps()
-    if fps>maxFPS:maxFPS=fps
-    if fps<minFPS and fps!=0:minFPS=fps
-    displayedText="FPS: "+str(int(fps))+",  Min: "+str(int(maxFPS))+",  Max: "+str(int(minFPS))
-    renderText(displayedText,"black",10,10)
+    #draws the player
+    player.draw()
+    #moves the player
+    player.move(dt)
+    
+    #for showing fps
+    pygame.display.set_caption("Wolfenstien Clone, FPS: "+str(round(clock.get_fps())))
     
     #updates the screen
     pygame.display.update()

@@ -1,67 +1,35 @@
 #imports
 from Utils import *
 
-#makes player
+#playes class
 class Player:
-    #ran when player is made
-    def __init__(self,startLocation,mapRectList):
-        self.mapRectList=mapRectList
-        self.pos=startLocation
-        self.width=15
-        self.height=15
-        self.surface=pygame.Surface((self.width,self.height))
-        self.rect=self.surface.get_rect(center=self.pos)
-        self.xMovementDirection="None"
-        self.yMovementDirection="None"
+    #initialises the class
+    def __init__(self,startingPos):
+        self.startingPos=startingPos+pygame.Vector2(3,3)
+        self.rect=pygame.FRect((self.startingPos.x,self.startingPos.y,14,14))
+        self.movementDirection=pygame.Vector2(0,0)
+        self.rotationDirection=0
         self.rotationDegrees=0
-        self.rotationDirection="None"
-        self.rayHalfWidth=100
-        self.rayDistance=325
-        self.visionEndPoints=[]
-        self.distanceEndPoints=[]
     #draws the player
     def draw(self):
-        screen.blit(self.surface,self.rect)
-        for point in self.visionEndPoints:pygame.draw.line(screen,"red",point,self.pos)
-    def moveLook(self):
-        self.visionEndPoints=[]
-        self.distanceEndPoints=[]
-        movement=pygame.Vector2(0,0)
-        #does the collisions
-        if self.xMovementDirection=="Left":movement.x-=1
-        elif self.xMovementDirection=="Right":movement.x+=1
-        if self.yMovementDirection=="Forward":movement.y-=1
-        elif self.yMovementDirection=="Backward":movement.y+=1
-        if movement.x!=0 and movement.y!=0:movement=movement.normalize()
-        #does the collision
-        collision=self.rect.collidelist(self.mapRectList)
-        if collision>0:
-            rightCollision=abs(self.mapRectList[collision].left-self.rect.right)
-            leftCollision=abs(self.mapRectList[collision].right-self.rect.left)
-            topCollision=abs(self.mapRectList[collision].bottom-self.rect.top)
-            bottomCollision=abs(self.mapRectList[collision].top-self.rect.bottom)
-
-            if rightCollision<leftCollision and rightCollision<bottomCollision and rightCollision<topCollision:self.pos.x-=rightCollision
-            elif leftCollision<rightCollision and leftCollision<bottomCollision and leftCollision<topCollision:self.pos.x+=leftCollision
-            elif bottomCollision<rightCollision and bottomCollision<topCollision and bottomCollision<leftCollision:self.pos.y-=bottomCollision
-            elif topCollision<rightCollision and topCollision<bottomCollision and topCollision<leftCollision:self.pos.y+=topCollision
-
-        #actually moves the player
-        self.pos+=movement
-        self.rect.center=self.pos
-        #rays for 3D goes here, for loop sets the number of rays
-        if self.rotationDirection=="Left":self.rotationDegrees+=1
-        elif self.rotationDirection=="Right":self.rotationDegrees-=1
-        #for drawing the end points
-        endLineStart=pygame.Vector2(self.pos.x,self.pos.y)-(pygame.Vector2(-self.rayHalfWidth,self.rayDistance).rotate(-self.rotationDegrees))
-        endLineEnd=pygame.Vector2(self.pos.x,self.pos.y)-(pygame.Vector2(self.rayHalfWidth,self.rayDistance).rotate(-self.rotationDegrees))
-        for point in range(0,screenX,1):self.visionEndPoints.append(endLineStart.lerp(endLineEnd,point/screenX))
-        #for drawing the points for distance calculation
-        distanceLineStart=pygame.Vector2(self.pos.x,self.pos.y)-(pygame.Vector2(-self.rayHalfWidth,0).rotate(-self.rotationDegrees))
-        distanceLineEnd=pygame.Vector2(self.pos.x,self.pos.y)-(pygame.Vector2(self.rayHalfWidth,0).rotate(-self.rotationDegrees))
-        for point in range(0,screenX,1):self.distanceEndPoints.append(distanceLineStart.lerp(distanceLineEnd,point/screenX))
-
-
-
-
-
+        pygame.draw.rect(screen,"black",self.rect)
+    #moves the player
+    def move(self,dt):
+        #for setting the movement speed for each direction to 1 or -1 for normalizing
+        #for side to side direction
+        if self.movementDirection.x>0:self.movementDirection.x=math.ceil(self.movementDirection.x)
+        else:self.movementDirection.x=math.floor(self.movementDirection.x)
+        #for up and down direction        
+        if self.movementDirection.y>0:self.movementDirection.y=math.ceil(self.movementDirection.y)
+        else:self.movementDirection.y=math.floor(self.movementDirection.y)
+        #actually normalises it
+        if self.movementDirection.x!=0 and self.movementDirection.y!=0:
+            self.movementDirection=self.movementDirection.normalize()
+        #for moving in the direction that the player is looking
+        self.rotationDegrees+=self.rotationDirection
+        #applies the movement direction, actually moving the player
+        movementVectorX=(self.movementDirection.x*dt)/10
+        movementVectorY=(self.movementDirection.y*dt)/10
+        movementVector=pygame.Vector2(movementVectorX,movementVectorY).rotate(-self.rotationDegrees)
+        self.rect.x+=movementVector.x
+        self.rect.y+=movementVector.y
