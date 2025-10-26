@@ -6,7 +6,7 @@ map1=open("Maps/Map1.txt")
 Map=Map(map1)
 
 #makes player
-player=Player(Map.playerStartLocation)
+player=Player(Map.playerStartLocation,Map.mapRectList)
 
 #main runloop
 while True:
@@ -40,7 +40,7 @@ while True:
     #draws the player
     player.draw()
     #moves the player
-    player.move(dt)
+    player.moveCollide(dt)
     
     #for showing fps
     pygame.display.set_caption("Wolfenstien Clone, FPS: "+str(round(clock.get_fps())))
