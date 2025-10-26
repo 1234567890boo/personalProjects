@@ -16,3 +16,80 @@ class Map:
     #draws the map
     def draw(self):
         for rect in self.mapRectList:pygame.draw.rect(screen,"blue",rect)
+
+
+#map editor
+#checks if the file itself ws ran by me or just called by the main file
+if __name__ == "__main__":
+    editMap=[["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
+             ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
+             ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
+             ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
+             ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
+             ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
+             ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
+             ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
+             ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
+             ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],]
+    #runloop
+    while True:
+        #for getting mouse pos for placing walls
+        mousePos=pygame.mouse.get_pos()
+        mousePos=pygame.Vector2(mousePos[0]//20,mousePos[1]//20)
+        #for exiting
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:os._exit(0)
+            elif event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_ESCAPE:os._exit(0)
+                #saves the map into a txt file with a name
+                elif event.key==pygame.K_s:
+                    print("File Name and Location?")
+                    name=input()
+                    file=open(name,"w")
+                    for line in editMap:
+                        lineToSave=""
+                        for point in line:
+                            lineToSave+=point
+                        lineToSave+="\n"
+                        file.write(lineToSave)
+                    file.close()
+                    print("Saved!")
+                #resets the map
+                elif event.key==pygame.K_BACKSPACE:
+                    print("heehee")
+                    for y in range(0,len(editMap),1):
+                        for x in range(0,len(editMap[y]),1):
+                            editMap[y][x]="N"
+                #for placing walls
+                elif event.key==pygame.K_w:editMap[int(mousePos.y)][int(mousePos.x)]="W"
+                #for placing player, making sure there is always only 1 player on the map
+                elif event.key==pygame.K_p:
+                    for y in range(0,len(editMap),1):
+                        for x in range(0,len(editMap[y]),1):
+                            if editMap[y][x]=="P":editMap[y][x]="N"
+                    editMap[int(mousePos.y)][int(mousePos.x)]="P"
+                #for removing a place
+                elif event.key==pygame.K_n:editMap[int(mousePos.y)][int(mousePos.x)]="N"
+                #presets
+                #walls around the all of the sides:
+                elif event.key==pygame.K_1:
+                    editMap=[["W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W"],
+                             ["W","N","N","N","N","N","N","N","N","N","N","N","N","N","N","W"],
+                             ["W","N","N","N","N","N","N","N","N","N","N","N","N","N","N","W"],
+                             ["W","N","N","N","N","N","N","N","N","N","N","N","N","N","N","W"],
+                             ["W","N","N","N","N","N","N","N","N","N","N","N","N","N","N","W"],
+                             ["W","N","N","N","N","N","N","N","N","N","N","N","N","N","N","W"],
+                             ["W","N","N","N","N","N","N","N","N","N","N","N","N","N","N","W"],
+                             ["W","N","N","N","N","N","N","N","N","N","N","N","N","N","N","W"],
+                             ["W","N","N","N","N","N","N","N","N","N","N","N","N","N","N","W"],
+                             ["W","W","W","W","W","W","W","W","W","W","W","W","W","W","W","W"],]
+        #resets screen
+        screen.fill("white")
+        #draws the map
+        for y in range(0,len(editMap),1):
+            for x in range(0,len(editMap[y]),1):
+                if editMap[y][x]=="W":pygame.draw.rect(screen,"blue",(x*20,y*20,20,20))
+                if editMap[y][x]=="P":pygame.draw.rect(screen,"black",(3+x*20,3+y*20,14,14))
+        #updates the screen
+        pygame.display.update()
+
