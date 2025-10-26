@@ -21,6 +21,17 @@ class Map:
 #map editor
 #checks if the file itself ws ran by me or just called by the main file
 if __name__ == "__main__":
+    '''
+    when placing blocks or presets, it will replace what is already placed
+    legend formap editor:
+    backspace - resets map to empty
+    s - saves map with input of name with file extentions
+    w - makes wall at the mouse position
+    p - makes a player at the mouse position and deleted any other player
+    n - deletes what is at the place of the mouse
+    1 - preset that clears the screen and adds walls around the edges
+    '''
+    #empty map template
     editMap=[["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
              ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
              ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
@@ -31,6 +42,17 @@ if __name__ == "__main__":
              ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
              ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],
              ["N","N","N","N","N","N","N","N","N","N","N","N","N","N","N","N"],]
+    #will open a file if it is there, leaves file creation to when saving happens:
+    print("Map file location?")
+    if input().lower()=="editing":
+        mapName=input()
+        try:
+            mapFile=open(mapName)
+            mapLines=mapFile.readlines()
+            for y in range(0,len(mapLines),1):
+                for x in range(0,len(mapLines[y])-1,1):
+                    editMap[y][x]=mapLines[y][x]
+        except: pass
     #runloop
     while True:
         #for getting mouse pos for placing walls
@@ -56,7 +78,6 @@ if __name__ == "__main__":
                     print("Saved!")
                 #resets the map
                 elif event.key==pygame.K_BACKSPACE:
-                    print("heehee")
                     for y in range(0,len(editMap),1):
                         for x in range(0,len(editMap[y]),1):
                             editMap[y][x]="N"
@@ -90,6 +111,8 @@ if __name__ == "__main__":
             for x in range(0,len(editMap[y]),1):
                 if editMap[y][x]=="W":pygame.draw.rect(screen,"blue",(x*20,y*20,20,20))
                 if editMap[y][x]=="P":pygame.draw.rect(screen,"black",(3+x*20,3+y*20,14,14))
+        #draws a border around the position in the map the mouse is over
+        pygame.draw.rect(screen,"azure4",(mousePos.x*20,mousePos.y*20,20,20),2)
         #updates the screen
         pygame.display.update()
 
