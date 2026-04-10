@@ -12,10 +12,8 @@ sortedList.append("last")
 oneItemPerList=[]
 #algorithm that iterates over the list and checks if item in spot n and n+1 are different
 #if they are different add item in spot n to oneItemPerList
-for n in range(0,len(sortedList),1):
-    if n+1!=len(sortedList):
-        if sortedList[n]!=sortedList[n+1]:
-            oneItemPerList.append(sortedList[n])
+for n in range(0,len(sortedList)-1,1):
+    if sortedList[n]!=sortedList[n+1]:oneItemPerList.append(sortedList[n])
 
 #print output
 print(unsortedList)
